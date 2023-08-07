@@ -8,41 +8,39 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.rahul.quizApp.Question;
 import com.rahul.quizApp.dao.QuestionDao;
+import com.rahul.quizApp.model.Question;
 
 @Service
 public class QuestionService {
-    @Autowired
-    QuestionDao questionDao;
-    public ResponseEntity< List<Question>> findAllQuestions(){
-    	try {
-    		return new ResponseEntity<> (questionDao.findAll(),HttpStatus.OK);			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    	return new ResponseEntity<> (new ArrayList<>() ,HttpStatus.BAD_REQUEST);
-        
-    }
+	@Autowired
+	QuestionDao questionDao;
 
-    public ResponseEntity< List<Question>> getQuestionsByCategory(String category) {
-        
-        try {
-        	return new ResponseEntity<>(questionDao.findByCategory(category),HttpStatus.OK);		
+	public ResponseEntity<List<Question>> findAllQuestions() {
+		try {
+			return new ResponseEntity<>(questionDao.findAll(), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return new ResponseEntity<> (new ArrayList<>() ,HttpStatus.BAD_REQUEST);
-    }
+		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+	}
 
-    public ResponseEntity<String> addQuestion(Question questions) {
-        
-        try {
-        	questionDao.save(questions);
-            return new ResponseEntity<>("success",HttpStatus.CREATED);		
+	public ResponseEntity<List<Question>> getQuestionsByCategory(String category) {
+		try {
+			return new ResponseEntity<>(questionDao.findByCategory(category), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return new ResponseEntity<> ("Couldn't add question",HttpStatus.BAD_REQUEST);
-    }
+		return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+	}
+	
+	public ResponseEntity<String> addQuestion(Question questions) {
+		try {
+			questionDao.save(questions);
+			return new ResponseEntity<>("success", HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>("Couldn't add question", HttpStatus.BAD_REQUEST);
+	}
 }
